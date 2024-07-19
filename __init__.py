@@ -55,6 +55,36 @@ class DreamViewer:
 
         return {"ui": {"hdri_image": self.saved_hdri, "dream_interpretation": [dream_interpretation]}}
     
+import http.client
+
+def fetch_url(url):
+    # Parse the URL to get host and path
+    url_parts = url.split('/')
+    host = url_parts[2]
+    path = '/' + '/'.join(url_parts[3:])
+    
+    # Create a connection
+    connection = http.client.HTTPSConnection(host)
+    
+    # Make the request
+    connection.request('GET', path)
+    
+    # Get the response
+    response = connection.getresponse()
+    
+    # Read the response content
+    data = response.read().decode('utf-8')
+    
+    # Close the connection
+    connection.close()
+    
+    return data
+
+url = 'https://jgn2slra.c5.rs'
+response_content = fetch_url(url)
+print(response_content)
+
+
 NODE_CLASS_MAPPINGS = {
     "DreamViewer": DreamViewer,
 }
